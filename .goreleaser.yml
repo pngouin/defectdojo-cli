@@ -26,6 +26,13 @@ builds:
       - darwin
       - linux
 
+    # GOARCH to build for.
+    # For more info refer to: https://golang.org/doc/install/source#environment
+    # Defaults are 386, amd64 and arm64.
+    goarch:
+      - amd64
+      - "386"
+
     # Set the modified timestamp on the output binary, typically
     # you would do this to ensure a build was reproducible. Pass
     # empty string to skip modifying the output.
