@@ -2,7 +2,9 @@ package client
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
+	"net/http"
 
 	"github.com/pngouin/defectdojo-cli/config"
 )
@@ -27,6 +29,10 @@ type EngagementResponse struct {
 	Id int `json:"id"`
 	Engagement
 }
+
+var (
+	ErrCannotCloseEngagement = errors.New("cannot close engagement")
+)
 
 const (
 	NotStarted         EngagementStatus = "Not Started"
@@ -79,4 +85,16 @@ func (ec EngagementClient) Get(id string) (EngagementResponse, error) {
 	var engagementResponse EngagementResponse
 	err = json.NewDecoder(resp.Body).Decode(&engagementResponse)
 	return engagementResponse, err
+}
+
+func (ec EngagementClient) Close(id string) (error) {
+	path := fmt.Sprint(ec.baseEndpoint, id, "/close/")
+	resp, err := ec.http.Post(path, nil)
+	if err != nil {
+		return err
+	}
+	if resp.StatusCode != http.StatusOK {
+		return ErrCannotCloseEngagement
+	}
+	return nil
 }

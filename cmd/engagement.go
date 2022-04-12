@@ -24,6 +24,13 @@ var createEngagement = &cobra.Command{
 	Run:   create,
 }
 
+var closeEngagement = &cobra.Command{
+	Use:   "close",
+	Short: "close an engagement",
+	Long:  "close an engagement for a product",
+	Run:   close,
+}
+
 func init() {
 	createEngagement.PersistentFlags().StringP("name", "n", "CI/CD", "engagement name")
 	createEngagement.PersistentFlags().StringP("description", "d", "CI/CD engagement", "engagement description")
@@ -33,7 +40,10 @@ func init() {
 	createEngagement.PersistentFlags().StringP("branch", "b", "", "branch of the code repository")
 	createEngagement.PersistentFlags().IntP("product", "p", -1, "product id")
 
+	closeEngagement.PersistentFlags().StringP("engagement", "e", "", "engagement id")
+
 	rootEngagement.AddCommand(createEngagement)
+	rootEngagement.AddCommand(closeEngagement)
 	cli.AddCommand(rootEngagement)
 }
 
@@ -61,4 +71,14 @@ func create(cmd *cobra.Command, args []string) {
 
 	data, _ := json.Marshal(resp)
 	fmt.Println(string(data))
+}
+
+func close(cmd *cobra.Command, args []string) {
+	client := client.NewEngagementClient(config.Configuration)
+	engagement := getFlagS(cmd, "engagement")
+	err := client.Close(engagement)
+	if err != nil {
+		log.Fatalf("cannot close engagement %s: %v", engagement, err)
+	}
+	fmt.Println("deleted")
 }
