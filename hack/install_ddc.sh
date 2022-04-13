@@ -76,11 +76,11 @@ function readlink_f {
 
 where="$(readlink_f $where)/"
 
-if [ -f "${where}dd" ]; then
-  echo "${where}dd exists. Remove it first."
+if [ -f "${where}ddc" ]; then
+  echo "${where}ddc exists. Remove it first."
   exit 1
-elif [ -d "${where}dd" ]; then
-  echo "${where}dd exists and is a directory. Remove it first."
+elif [ -d "${where}ddc" ]; then
+  echo "${where}ddc exists and is a directory. Remove it first."
   exit 1
 fi
 
@@ -145,10 +145,10 @@ curl -sLO $RELEASE_URL
 
 tar xzf ./defectdojo-cli_*_${opsys}_${arch}.tar.gz
 
-cp ./dd "$where"
+cp ./ddc "$where"
 
 popd >& /dev/null
 
-${where}dd --version
+${where}ddc --version
 
-echo "Defectdojo installed to ${where}dd"
+echo "Defectdojo installed to ${where}ddc"
