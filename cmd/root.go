@@ -7,15 +7,13 @@ import (
 )
 
 var cli = &cobra.Command{
-	Use: "dd",
+	Use: "ddc",
 	Short: "DefectDojo cli for CI/CD",
 	Long: `This application is an application CLI for defectdojo`,
 }
 
-func init() {
-}
-
-func Execute() {
+func Execute(version string) {
+	cli.Version = version
 	if err := cli.Execute(); err != nil {
 		log.Fatal(err)
 	}

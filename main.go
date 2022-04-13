@@ -5,7 +5,12 @@ import (
 	"github.com/pngouin/defectdojo-cli/config"
 )
 
+var (
+	Version = "development"
+)
+
+
 func main() {
 	config.LoadConfigFromEnv()
-	cmd.Execute()
+	cmd.Execute(Version)
 }
