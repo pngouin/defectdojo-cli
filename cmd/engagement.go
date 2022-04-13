@@ -80,5 +80,5 @@ func close(cmd *cobra.Command, args []string) {
 	if err != nil {
 		log.Fatalf("cannot close engagement %s: %v", engagement, err)
 	}
-	fmt.Println("deleted")
+	fmt.Printf("Engagement %v deleted", engagement)
 }
